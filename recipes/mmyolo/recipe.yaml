@@ -1,0 +1,51 @@
+context:
+  name: MMYOLO
+  version: "0.6.0"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/open-mmlab/mmyolo/archive/refs/tags/v${{ version }}.tar.gz
+  sha256: 8772f4e27a5f5c83615357fdcbe6b0f6bdfd286e0c3df2330d2ab0001eb07fe2
+  patches:
+    - update_mmcv_version_constraints.patch
+
+build:
+  noarch: python
+  script:
+    - python -m pip install .
+
+requirements:
+  host:
+    - python
+    - pytorch
+    - pip
+  run:
+    - mmcv
+    - mmdet
+    - mmengine
+    - numpy
+    - prettytable
+    - py-opencv
+    - python
+    - pytorch
+
+tests:
+  # Temporary removed due to version incompatible in mmdet
+  # - python:
+  #     imports:
+  #       - mmyolo
+  #     pip_check: true
+
+about:
+  homepage: https://github.com/open-mmlab/mmyolo
+  license: GPL-3.0
+  license_file: LICENSE
+  description: MMYOLO is an open source toolbox for YOLO series algorithms based on PyTorch and MMDetection. It is a part of the OpenMMLab project.
+  documentation: https://mmyolo.readthedocs.io
+
+extra:
+  recipe-maintainers:
+    - itskyf
