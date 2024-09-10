@@ -1,0 +1,37 @@
+context:
+  name: diffdist
+
+package:
+  name: ${{ name|lower }}
+  version: "0.1"
+
+source:
+  git: https://github.com/ag14774/diffdist.git
+  rev: b5c17c7354bbbe98b6e8a791ea78614861b4997a
+
+build:
+  noarch: python
+  script: python -m pip install .
+
+requirements:
+  host:
+    - python
+    - pip
+  run:
+    - python
+    - pytorch
+
+tests:
+  - python:
+      imports:
+        - diffdist
+      pip_check: true
+
+about:
+  homepage: https://github.com/ag14774/diffdist
+  description: diffdist is a python library for pytorch. It extends the default functionality of torch.autograd and adds support for differentiable communication between processes. This enables backpropagation to work in distributed settings and makes it super easy to use distributed model parallelism! diffdist achieves that by simply implementing the backward passes for most common communication primitives of torch.distributed. Processes that communicate during the forward pass, will automatically communicate during the backward pass to exchange gradients.
+  license: GPL-3.0
+
+extra:
+  recipe-maintainers:
+    - itskyf
