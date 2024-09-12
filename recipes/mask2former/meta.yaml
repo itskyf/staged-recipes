@@ -1,0 +1,62 @@
+{% set name = "Mask2Former" %}
+# see github.com/conda-forge/conda-forge.github.io/issues/1059 for naming discussion
+{% set torch_proc_type = "cuda" if cuda_compiler_version != "None" else "cpu" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "0.1.0"
+
+source:
+  url: https://github.com/facebookresearch/Mask2Former/archive/refs/heads/main.zip
+  sha256: 722869057bf2a3dc0c9eeae7c763a35889a433e6728e358b624d259f815c0c8a
+  patches:
+    - 0001-fix-remove-CUDA-import-in-CPU-extension.patch
+    - 0002-build-add-mask2former-python-packaging.patch
+
+build:
+  string: cuda{{ cuda_compiler_version | replace('.', '') }}py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }} # [cuda_compiler_version != "None"]
+  string: cpu_py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }} # [cuda_compiler_version == "None"]
+
+requirements:
+  build:
+    - python # [build_platform != target_platform]
+    - cross-python_{{ target_platform }} # [build_platform != target_platform]
+    - pytorch ={{ pytorch }}={{ torch_proc_type }}* # [build_platform != target_platform]
+    - ninja
+    - {{ compiler('cxx') }}
+    - {{ compiler('cuda') }} # [cuda_compiler_version != "None"]
+  host:
+    - python
+    - pip
+    - setuptools
+    - pytorch
+    - pytorch =*={{ torch_proc_type }}*
+    - cuda-version {{ cuda_compiler_version }} # [cuda_compiler_version != "None"]
+    - libcublas-dev # [(cuda_compiler_version or "").startswith("12")]
+    - libcusolver-dev # [(cuda_compiler_version or "").startswith("12")]
+    - libcusparse-dev # [(cuda_compiler_version or "").startswith("12")]
+  run:
+    - python
+    - pytorch
+    - detectron2
+    - fvcore
+    - numpy
+    - py-opencv
+    - pycocotools
+    - scipy
+    - timm
+    - torchvision
+  run_constrained:
+    - pytorch =*={{ torch_proc_type }}*
+    - torchvision =*=cuda{{ cuda_compiler_version | replace('.', '') }}* # [cuda_compiler_version != "None"]
+
+test:
+  imports:
+    - mask2former
+    - mask2former_video
+
+about:
+  homepage: https://github.com/facebookresearch/Mask2Former
+  license_file: LICENSE
+  license: MIT
+  # summary: "Mask2Former: Masked-attention Mask Transformer for Universal Image Segmentation"

@@ -1,0 +1,39 @@
+From b0502f9d7cf77a970387514371f5f53017e611b4 Mon Sep 17 00:00:00 2001
+From: Ky Anh <40734986+itskyf@users.noreply.github.com>
+Date: Wed, 11 Sep 2024 08:00:33 +0000
+Subject: [PATCH 2/2] build: add mask2former python packaging
+
+---
+ pyproject.toml | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+ create mode 100644 pyproject.toml
+
+diff --git pyproject.toml pyproject.toml
+new file mode 100644
+index 0000000..7e09d25
+--- /dev/null
++++ pyproject.toml
+@@ -0,0 +1,20 @@
++[project]
++name = "mask2former"
++version = "0.1.0"
++description = "A pip installable version of mask2former"
++authors = [{ name = "Bowen Cheng" }]
++urls = { "Homepage" = "https://github.com/facebook/mask2former" }
++dependencies = [
++    "detectron2 @ git+https://github.com/facebookresearch/detectron2",
++    "fvcore",
++    "numpy",
++    "opencv-python-headless",
++    "pycocotools",
++    "scipy",
++    "timm",
++    "torch",
++    "torchvision",
++]
++
++[tool.setuptools.packages.find]
++include = ["mask2former*", "mask2former_video*"]
+-- 
+2.43.5
+
