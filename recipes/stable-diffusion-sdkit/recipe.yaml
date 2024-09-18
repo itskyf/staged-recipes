@@ -3,8 +3,10 @@ package:
   version: "2.1.5"
 
 source:
-  - url: https://files.pythonhosted.org/packages/66/bb/c629ade35f13a34cd00a5cf4825d906128e9ef0412f415ecd1ee6956465d/stable-diffusion-sdkit-2.1.5.tar.gz
-    sha256: 49ae507129bf54a181fe79f48dbaf3d4ca475e58af48f2ce374af5e7cc0c652c
+  url: https://files.pythonhosted.org/packages/66/bb/c629ade35f13a34cd00a5cf4825d906128e9ef0412f415ecd1ee6956465d/stable-diffusion-sdkit-2.1.5.tar.gz
+  sha256: 49ae507129bf54a181fe79f48dbaf3d4ca475e58af48f2ce374af5e7cc0c652c
+  patches:
+    - 0001-fix-PyTorch-Lightning-2.0.patch
 
 build:
   noarch: python
@@ -18,13 +20,13 @@ requirements:
   run:
     - python
     - albumentations
-    - py-opencv
+    - einops
     - lightning
     - omegaconf
-    - einops
-    - transformers
     - open-clip-torch
+    - py-opencv
     - tqdm
+    - transformers
 
 tests:
   - python:
