@@ -1,0 +1,37 @@
+context:
+  name: panopticapi
+
+package:
+  name: ${{ name|lower }}
+  version: "0.1.0"
+
+source:
+  git: https://github.com/cocodataset/panopticapi.git
+  rev: 7bb4655548f98f3fedc07bf37e9040a992b054b0
+
+build:
+  noarch: python
+  script: python -m pip install .
+
+requirements:
+  host:
+    - python
+    - pip
+  run:
+    - python
+    - numpy
+    - pillow
+
+tests:
+  - python:
+      imports:
+        - panopticapi
+      pip_check: true
+
+about:
+  homepage: https://github.com/cocodataset/panopticapi
+  summary: COCO 2018 Panoptic Segmentation Task API (Beta version)
+
+extra:
+  recipe-maintainers:
+    - itskyf
