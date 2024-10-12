@@ -1,0 +1,44 @@
+context:
+  name: CamTools
+  version: "0.1.5"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/yxlao/camtools/archive/refs/tags/v${{ version }}.tar.gz
+  sha256: 6c65f8b1243ec4ce1bd88d04e8a9264998501feeb3720339c821076c2c9dcec8
+
+build:
+  noarch: python
+  script:
+    - python -m pip install .
+
+requirements:
+  host:
+    - python
+    - pip
+    - setuptools
+  run:
+    - jaxtyping
+    - matplotlib
+    - numpy
+    - open3d
+    - py-opencv
+    - scikit-image
+    - tqdm
+
+tests:
+  - python:
+      imports:
+        - camtools
+      pip_check: false
+
+about:
+  homepage: https://github.com/yxlao/camtools
+  license: MIT
+
+extra:
+  recipe-maintainers:
+    - itskyf
